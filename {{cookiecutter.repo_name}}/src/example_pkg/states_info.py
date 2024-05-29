@@ -17,6 +17,7 @@ class City(TypedDict):
 
 
 def is_city_capital_of_state(city_name: str, state: str) -> bool:
+    """Return True if `city_name` is the capitol of `state`."""
     cities_json_contents = CITIES_JSON_FPATH.read_text()
     cities: List[City] = json.loads(cities_json_contents)
 
