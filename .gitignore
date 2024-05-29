@@ -2,6 +2,7 @@
 # https://github.com/github/gitignore/blob/main/Python.gitignore
 
 sample/
+cookiecutter-test-config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
