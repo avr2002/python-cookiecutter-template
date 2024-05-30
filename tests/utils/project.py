@@ -7,6 +7,21 @@ from typing import Dict
 from tests.consts import PROJECT_DIR
 
 
+def initialize_git_repo(repo_dir: Path) -> None:
+    """
+    Initialize a git repository in the generated project directory
+    for pre-commit(.pre-commit-config.yaml) to work.
+    """
+    # intialize git repository
+    subprocess.run(["git", "init"], cwd=repo_dir, check=True)
+    # create a main branch
+    subprocess.run(["git", "branch", "-m", "main"], cwd=repo_dir, check=True)
+    # add all files to the git repository
+    subprocess.run(["git", "add", "--all"], cwd=repo_dir, check=True)
+    # commit the changes
+    subprocess.run(["git", "commit", "-m", "'feat: initial commit by pytest'"], cwd=repo_dir, check=True)
+
+
 def generate_project(template_values: Dict[str, str]) -> Path:  # type: ignore
     """
     Generates a project using the cookiecutter template.

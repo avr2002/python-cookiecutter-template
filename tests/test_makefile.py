@@ -1,20 +1,18 @@
-import pytest
+import subprocess
+from pathlib import Path
 
 
-@pytest.fixture(scope="session")
-def project():
-    print("Setup")
-    yield "is it yeilding?" # even if any test fails, teardown will run when yeild is used
-    # return "is it returning?" # but using return will not run the teardown #noqa:ERA001
-    print("Teardown")
 
-
-def test_linting_passes(project):
+def test_linting_passes(project_dir: Path):
     """
     Ensure the project passes linting.
     """
-    print(project)
-    assert False
+    # Running the linting `make lint:ci` command in the project directory.
+    subprocess.run(
+        ["make", "lint-ci"],
+        cwd=project_dir,  # This will make the command run in the project directory.
+        check=True,  # This will make subprocess raise an error if the command fails.
+    )
 
 
 def test_tests_pass():
