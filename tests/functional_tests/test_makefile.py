@@ -39,25 +39,3 @@ def test_tests_passes(project_dir: Path):
     """
     subprocess.run(["make", "install"], cwd=project_dir, check=True)
     subprocess.run(["make", "test-wheel-locally"], cwd=project_dir, check=True)
-
-
-def test_install_succeeds():
-    """
-    Ensure the project installs successfully.
-    """
-    ...
-
-
-# """
-# Setup:
-# 1. generate a project using cookiecutter template
-# 2. create a virtual environment and intall project dependencies
-
-# Tests:
-# 3. run test
-# 4. run linting
-
-# Cleanup/Teardown:
-# 5. remove virtual environment
-# 6. remove generated project
-# """
