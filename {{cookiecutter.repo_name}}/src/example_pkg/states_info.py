@@ -2,13 +2,17 @@
 
 import json
 from pathlib import Path
-from typing import List, TypedDict
+from typing import (
+    List,
+    TypedDict,
+)
 
 THIS_DIR = Path(__file__).parent
 CITIES_JSON_FPATH = THIS_DIR / "cities.json"
 
 
 class City(TypedDict):
+    """Type definition for a city."""
     city: str
     state: str
     lat: float
@@ -33,5 +37,5 @@ def is_city_capital_of_state(city_name: str, state: str) -> bool:
 # pylint: disable=invalid-name
 def slow_add(a: int, b: int) -> int:
     """Return the sum of `a` and `b`."""
-    # sleep(4)
+    # sleep(4) # noqa: ERA001
     return a + b

@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-
 # conftest.py is the first file that gets executed by pytest.
 
 # Appending this directory to the sys.path allows us to import modules from the parent directory.
