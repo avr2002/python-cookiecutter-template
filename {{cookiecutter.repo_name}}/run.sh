@@ -51,7 +51,7 @@ function run-tests {
 }
 
 function test:wheel-locally {
-    deactivate || true
+    source deactivate || true
     rm -rf test-env || true
     python -m venv test-env
     source test-env/bin/activate
@@ -60,10 +60,9 @@ function test:wheel-locally {
     build
     pip install ./dist/*.whl pytest pytest-cov
     test:ci
-    deactivate || true
+    source deactivate || true
     rm -rf test-env
     clean
-    source .venv/bin/activate
 }
 
 # serve the html test coverage report on localhost:8000

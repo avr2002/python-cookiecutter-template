@@ -24,11 +24,21 @@ def test_linting_passes(project_dir: Path):
     )
 
 
-def test_tests_pass():
+def test_tests_passes(project_dir: Path):
     """
     Ensure the project's tests pass.
+    
+    For this test to pass, we need to:
+    1. generate a project using the defined pytest `project_dir` fixture.
+    2. install our test dependencies in the generated project directory
+    3. run `make test`/`make test-wheel-locally` in the project dir to check if the tests pass
+    
+    `make test` will run the tests against the generated project template, but
+    `make test-wheel-locally` will actually build the wheel file and run the tests against that
+    wheel file in a separate virtual environment.
     """
-    ...
+    subprocess.run(["make", "install"], cwd=project_dir, check=True)
+    subprocess.run(["make", "test-wheel-locally"], cwd=project_dir, check=True)
 
 
 def test_install_succeeds():
