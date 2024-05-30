@@ -1,6 +1,7 @@
 import shutil
 import subprocess
 from pathlib import Path
+from uuid import uuid4
 
 import pytest
 
@@ -13,10 +14,16 @@ from tests.utils.project import (
 @pytest.fixture(scope="session")
 def project_dir() -> Path:
     # Setup
-    template_values = {"repo_name": "test-repo"}
+    test_session_id: str = generate_test_session_id()
+    template_values = {
+        "repo_name": f"test-repo-{test_session_id}",
+    }
 
     # generate a project using cookiecutter template
-    generated_project_dir: Path = generate_project(template_values=template_values)
+    generated_project_dir: Path = generate_project(
+        template_values=template_values,
+        test_session_id=test_session_id,
+    )
 
     try:
         # initialize a git repository in the generated project directory for pre-commit-config.yaml to work
@@ -35,4 +42,10 @@ def project_dir() -> Path:
         yield generated_project_dir
     finally:
         # Teardown
-        shutil.rmtree(generated_project_dir.parent)
+        shutil.rmtree(generated_project_dir)
+
+
+def generate_test_session_id() -> str:
+    """Generate a unique session id for the test session."""
+    test_session_id = str(uuid4())[:6]
+    return test_session_id
