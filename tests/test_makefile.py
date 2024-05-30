@@ -2,10 +2,19 @@ import subprocess
 from pathlib import Path
 
 
-
 def test_linting_passes(project_dir: Path):
     """
     Ensure the project passes linting.
+    
+    For this test to pass, we need to:
+    1. generate a project using cookiecutter template
+    2. initialize a git repository in the generated project directory
+    3. run `make lint:ci` in the generated project directory to check if the project passes linting
+    
+    This will verify that the project passes linting, 
+    our pre-commit hooks are working, the reference to pyproject.toml is correct in the pre-commit config,
+    which inturn verifies that the pyproject.toml file is set up correctly for linting tools,
+    and the project is set up correctly.
     """
     # Running the linting `make lint:ci` command in the project directory.
     subprocess.run(
