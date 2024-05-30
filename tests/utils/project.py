@@ -37,7 +37,14 @@ def generate_project(template_values: Dict[str, str], test_session_id: str) -> P
     # changing the original object
     template_values: Dict[str, str] = deepcopy(template_values)  # type: ignore[no-redef]
     cookiecutter_config = {"default_context": template_values}
+    
+    # creating this config file is necessary to pass the context to cookiecutter without user input
+    # which is required for running tests otherwise it will try to prompt for user input and our 
+    # automated tests will fail
+    
     cookiecutter_config_fpath = PROJECT_DIR / f"tests/cookiecutter_test_configs/cookiecutter-test-config-{test_session_id}.json"
+    # create the parent directory(cookiecutter_test_configs) of the config file, if it doesn't exist
+    cookiecutter_config_fpath.parent.mkdir(parents=True, exist_ok=True)
     cookiecutter_config_fpath.write_text(json.dumps(cookiecutter_config))
 
     cmd = [
