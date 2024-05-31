@@ -1,3 +1,9 @@
+"""
+conftest.py is a file that is used to configure pytest. It is used to define fixtures, hooks, and plugins for pytest.
+It is automatically discovered by pytest and is used to configure the test session.
+It is used to define fixtures, hooks, and plugins for pytest.
+"""
+
 import sys
 from pathlib import Path
 

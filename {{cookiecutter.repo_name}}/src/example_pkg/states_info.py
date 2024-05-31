@@ -13,6 +13,7 @@ CITIES_JSON_FPATH = THIS_DIR / "cities.json"
 
 class City(TypedDict):
     """Type definition for a city."""
+
     city: str
     state: str
     lat: float

@@ -1,6 +1,5 @@
 """Tests for `example_pkg.states_info`."""
 
-
 import pytest
 from example_pkg.states_info import (
     is_city_capital_of_state,

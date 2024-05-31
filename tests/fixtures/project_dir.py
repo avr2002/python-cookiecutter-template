@@ -1,3 +1,20 @@
+"""
+The module contains a pytest fixture for generating a project directory.
+
+The `project_dir` fixture is used to generate a project directory using a cookiecutter template.
+It sets up the necessary environment for testing, including initializing a git repository and
+running linting commands.
+
+The generated project directory is yielded by the fixture and can be used in tests.
+
+Functions:
+- `generate_test_session_id()`: Generates a unique session id for the test session.
+
+Fixtures:
+- `project_dir()`: Generates a project directory using a cookiecutter template and sets up the
+    necessary environment for testing.
+"""
+
 import shutil
 import subprocess
 from pathlib import Path
@@ -12,7 +29,7 @@ from tests.utils.project import (
 
 
 @pytest.fixture(scope="session")
-def project_dir() -> Path:
+def project_dir() -> Path:  # type: ignore
     # Setup
     test_session_id: str = generate_test_session_id()
     template_values = {

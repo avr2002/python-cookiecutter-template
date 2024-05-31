@@ -1,3 +1,5 @@
+"""Tests if the project directory is generated successfully."""
+
 from pathlib import Path
 
 
