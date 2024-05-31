@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       # Fails if there are any ">>>>>" lines in files due to merge conflicts.
       - id: check-merge-conflict
@@ -47,38 +47,39 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.261"
+    rev: "v0.4.6"
     hooks:
       - id: ruff
         args: [--exit-non-zero-on-fix, --config=./pyproject.toml]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.2.0"
+    rev: "v1.10.0"
     hooks:
       - id: mypy
         args:
           [
+            --explicit-package-bases,
             --no-strict-optional,
             --ignore-missing-imports,
             --config-file=./pyproject.toml,
           ]
 
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 24.4.2
     hooks:
       - id: black
         args:
           - --config=./pyproject.toml
 
   - repo: https://github.com/PyCQA/pylint
-    rev: v2.16.3
+    rev: v3.2.2
     hooks:
       - id: pylint
         args:
           - --rcfile=./pyproject.toml
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 7.0.0
     hooks:
       - id: flake8
         args:
@@ -89,14 +90,14 @@ repos:
           - Flake8-pyproject
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         args:
           - --settings-path=./pyproject.toml
 
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.0.1
+    rev: v2.3.1
     hooks:
       - id: autoflake
         args:
