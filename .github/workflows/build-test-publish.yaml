@@ -34,7 +34,7 @@ jobs:
               with:
                 python-version: 3.8
             - name: Install test dependencies
-              run: pip install pytest pytest-cov
+              run: pip install cookiecutter pytest pytest-cov
             - name: Run tests
               run: |
                 /bin/bash -x run.sh run-tests
