@@ -34,7 +34,7 @@ jobs:
               with:
                 python-version: 3.8
             - name: Install test dependencies
-              run: pip install cookiecutter pytest pytest-cov
+              run: pip install cookiecutter pre-commit pytest pytest-cov
             - name: Set up Git
               run: |
                 git config --global user.email "avr13405@gmail.com"
