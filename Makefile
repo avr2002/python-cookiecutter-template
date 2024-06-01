@@ -17,12 +17,6 @@ lint-ci:
 test:
 	bash run.sh run-tests
 
-test-parallel:
-	bash run.sh run-tests:parallel
-
-serve-coverage-report:
-	bash run.sh serve-coverage-report
-
 help:
 	bash run.sh help
 
