@@ -3,18 +3,18 @@
 ## Quick start
 
 ```bash
-pip install sample-python-package
+pip install {{ cookiecutter.repo_name }}
 ```
 
 ```python
-from example_pkg import ...
+from {{ cookiecutter.package_import_name }} import ...
 ```
 
 ## Contributing
 
 ```bash
 # clone the repo
-git clone https://github.com/phitoduck/python-course-package.git
+git clone https://github.com/avr2002/python-cookiecutter-template
 
 # install the dev dependencies
 make install

@@ -34,6 +34,7 @@ def project_dir() -> Path:  # type: ignore
     test_session_id: str = generate_test_session_id()
     template_values = {
         "repo_name": f"test-repo-{test_session_id}",
+        "package_import_name": f"test_package_{test_session_id}",
     }
 
     # generate a project using cookiecutter template

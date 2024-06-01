@@ -1,5 +1,11 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+
+# exclude: Disable the pre-commit hook for the specified files, here we exclude linting
+# for cookiecutter template folder as linting will give errors for the template files
+# starting with {{cookiecutter.}}
+exclude: ^{{cookiecutter.repo_name}}
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
