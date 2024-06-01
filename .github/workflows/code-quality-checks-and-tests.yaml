@@ -1,4 +1,4 @@
-name: Build, Test, and Publish
+name: Code Quality Checks and Tests
 
 on:
     pull_request:
