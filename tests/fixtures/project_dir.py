@@ -56,7 +56,7 @@ def project_dir() -> Path:  # type: ignore
             check=False,  # we expect this to fail due to formatting errors
         )
 
-        yield generated_project_dir
+        yield generated_project_dir  # type: ignore
     finally:
         # Teardown
         shutil.rmtree(generated_project_dir)

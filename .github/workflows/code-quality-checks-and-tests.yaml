@@ -1,0 +1,44 @@
+name: Code Quality Checks and Tests
+
+on:
+    pull_request:
+        types: [opened, synchronize]
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    lint-format-and-static-code-checks:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            - name: Setup Python 3.8
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.8
+            - name: Install pre-commit
+              run: pip install pre-commit
+            - name: Lint, Format, and Static Code Quality Checks
+              run: |
+                /bin/bash -x run.sh lint:ci
+
+    execute-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            - name: Setup Python 3.8
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.8
+            - name: Install test dependencies
+              run: pip install cookiecutter pre-commit pytest pytest-cov
+            - name: Set up Git
+              run: |
+                git config --global user.email "avr13405@gmail.com"
+                git config --global user.name "Amit Vikram Raj"
+            - name: Run tests
+              run: |
+                /bin/bash -x run.sh run-tests

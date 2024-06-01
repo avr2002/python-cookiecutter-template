@@ -5,11 +5,26 @@
 clean:
 	bash run.sh clean
 
-help:
-	bash run.sh help
-
 install:
 	bash run.sh install
+
+lint:
+	bash run.sh lint
+
+lint-ci:
+	bash run.sh lint:ci
+
+test:
+	bash run.sh run-tests
+
+test-parallel:
+	bash run.sh run-tests:parallel
+
+serve-coverage-report:
+	bash run.sh serve-coverage-report
+
+help:
+	bash run.sh help
 
 generate-project:
 	bash run.sh generate-project
