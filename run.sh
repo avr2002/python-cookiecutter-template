@@ -42,26 +42,15 @@ function create-repository-if-not-exists {
     # Create a trivial file and create an initial commit to main branch
     # This is required to open a PR to the main branch
     push-initial-readme-to-repo
+
+    # Enable write permissions for the default workflow so that push tags can be used in github actions workflows
+    echo "Enabling write permissions for the default workflow..."
+    enable-write-workflow-permissions
 }
 
-# args:
-    # REPO_NAME: repository name
-    # GITHUB_USERNAME: github username; e.g. "avr2002"
-function push-initial-readme-to-repo {
-    rm -rf "$REPO_NAME" # remove the repository if it exists
-    gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
-    cd "$REPO_NAME/"
-    echo "# $REPO_NAME" > "README.md"
-    git branch -m main || true
-    git add --all
-    git commit -m "feat: initial commit, repository created"
-    git push origin main
-    cd ..
-    rm -rf "$REPO_NAME" # remove the cloned repository after pushing the initial commit
-}
+# function configure-repository {
 
-
-# function configure-repository {}
+# }
 
 # INFO: Opening a PR is not a git concept, but a GitHub concept or a Git hosting service provider concept.
 # args:
@@ -148,6 +137,34 @@ function generate-project {
     git branch -m main
     git add --all
     git commit -m "feat: generated sample project with python-cookiecutter-template"
+}
+
+# args:
+    # REPO_NAME: repository name
+    # GITHUB_USERNAME: github username; e.g. "avr2002"
+function push-initial-readme-to-repo {
+    rm -rf "$REPO_NAME" # remove the repository if it exists
+    gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
+    cd "$REPO_NAME/"
+    echo "# $REPO_NAME" > "README.md"
+    git branch -m main || true
+    git add --all
+    git commit -m "feat: initial commit, repository created"
+    git push origin main
+    cd ..
+    rm -rf "$REPO_NAME" # remove the cloned repository after pushing the initial commit
+}
+
+
+# docs.github.com/en/rest/actions/permissions?apiVersion=2022-11-28#set-default-workflow-permissions-for-a-repository
+function enable-write-workflow-permissions {
+    # Enable write permissions for the default workflow so that push tags can be used in github actions workflows
+    gh api \
+        --method PUT \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        /repos/$GITHUB_USERNAME/$REPO_NAME/actions/permissions/workflow \
+        -f "default_workflow_permissions=write" &> /dev/null
 }
 
 
