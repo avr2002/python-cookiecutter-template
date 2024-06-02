@@ -4,23 +4,26 @@ on:
     workflow_dispatch:
         inputs:
             repo_name:
-                description: 'Name of the Repository to create'
+                description: 'Name of the Repo to Create.'
                 required: true
                 type: string
             repo_visibility:
-                description: 'If unchecked, the repository will be private.'
+                description: 'If unchecked, Repo is Private.'
                 required: true
                 default: false
                 type: boolean
             repo_description:
-                description: 'Repository description, if not provided, default is used.'
+                description: 'Repo Description. If not provided, default is used.'
                 required: false
                 default: 'This is a generated repository using the `python-cookiecutter-template`.'
                 type: string
             package_import_name:
-                description: 'Used in imports in generated project. E.g., `from <pkg_name> import <module_name>`'
+                description: 'Package Import Name, used in generated project. E.g., `from <pkg_name> import <module_name>`'
                 required: true
                 type: string
+
+env:
+    GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
 
 jobs:
     create-repository-if-not-exists:

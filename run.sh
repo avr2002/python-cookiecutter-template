@@ -65,6 +65,7 @@ function configure-repository {
         --body "$PROD_PYPI_TOKEN" \
         --repo "$GITHUB_USERNAME/$REPO_NAME"
 
+    # https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#update-branch-protection
     # 2. Enable branch protection for the main branch, enforcing passing build on feature branches before merging
     BRANCH_NAME="main"
     gh api \
