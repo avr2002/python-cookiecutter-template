@@ -5,6 +5,46 @@ set -e
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
+# args:
+    # REPO_NAME: repository name
+    # GITHUB_USERNAME: github username; e.g. "avr2002"
+    # IS_PUBLIC_REPO: boolean; if true, the repository will be public, else private
+function create-repository-if-not-exists {
+    local IS_PUBLIC_REPO=${IS_PUBLIC_REPO:-false}
+
+    # Check to see if the repo. already exists; if yes, return
+    echo "Checking if repository $GITHUB_USERNAME/$REPO_NAME exists..."
+    gh repo view "$GITHUB_USERNAME/$REPO_NAME" &> /dev/null \
+        && {
+            echo "Repository $GITHUB_USERNAME/$REPO_NAME already exists. Exiting..."
+            return 0
+        }
+
+    echo "Repository $GITHUB_USERNAME/$REPO_NAME does not exist, Creating..."
+
+    # else create the repository
+    if [[ "$IS_PUBLIC_REPO" == true ]]; then
+        PUBLIC_OR_PRIVATE="public"
+    else
+        PUBLIC_OR_PRIVATE="private"
+    fi
+
+    # Check if repo name is available; if not, prompt user to enter a new name
+    gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE"
+    # || {
+    #     echo "Repository with name $REPO_NAME already exists."
+    #     echo "Please enter a new repository name: "
+    #     read -r REPO_NAME
+    #     create-repository-if-not-exists
+    # }   
+}
+
+# function configure-repository {}
+
+function open-pull-request-with-generated-project {
+    
+}
+
 # cookie-cuts the project into sample directory, and initializes a git repository
 # in the generated project, and make an initial commit, so that pre-commit hooks
 # can be tested and run.
