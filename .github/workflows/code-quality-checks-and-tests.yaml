@@ -59,6 +59,7 @@ jobs:
                 git config --global user.name "Amit Vikram Raj"
             - name: Run tests
               run: make test
+              
     push-tags:
       needs:
         - execute-tests

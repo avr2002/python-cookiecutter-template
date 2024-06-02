@@ -48,9 +48,37 @@ function create-repository-if-not-exists {
     enable-write-workflow-permissions
 }
 
-# function configure-repository {
+# args:
+    # REPO_NAME: repository name
+    # GITHUB_USERNAME: github username; e.g. "avr2002"
+    # TEST_PYPI_TOKEN, PROD_PYPI_TOKEN: PyPI tokens for test-PyPI and PyPI.
+function configure-repository {
+    # Configure the repository with the following settings:
+    # 1. Github Actions Secrets for publishing to PyPI
+    gh secret set TEST_PYPI_TOKEN \
+        --body "$TEST_PYPI_TOKEN" \
+        --repo "$GITHUB_USERNAME/$REPO_NAME"
 
-# }
+    gh secret set PROD_PYPI_TOKEN \
+        --body "$PROD_PYPI_TOKEN" \
+        --repo "$GITHUB_USERNAME/$REPO_NAME"
+
+    # 2. Enable branch protection for the main branch, enforcing passing build on feature branches before merging
+    BRANCH_NAME="main"
+    gh api \
+        --method PUT \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        /repos/$GITHUB_USERNAME/$REPO_NAME/branches/$BRANCH_NAME/protection \
+        -F "required_status_checks[strict]=true" \
+        -F "required_status_checks[checks][][context]=check-version-txt" \
+        -F "required_status_checks[checks][][context]=lint-format-and-static-code-checks" \
+        -F "required_status_checks[checks][][context]=build-wheel-and-sdist" \
+        -F "required_status_checks[checks][][context]=execute-tests" \
+        -F "required_pull_request_reviews[required_approving_review_count]=1" \
+        -F "enforce_admins=null" \
+        -F "restrictions=null" &> /dev/null
+}
 
 # INFO: Opening a PR is not a git concept, but a GitHub concept or a Git hosting service provider concept.
 # args:
