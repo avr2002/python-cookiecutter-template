@@ -44,7 +44,7 @@ jobs:
                 IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
-                bash run.sh -x create-repository-if-not-exists
+                bash -x run.sh create-repository-if-not-exists
 
     configure-repository:
         needs:
@@ -64,7 +64,7 @@ jobs:
                 TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
               run: |
-                bash run.sh -x configure-repository
+                bash -x run.sh configure-repository
 
     open-pull-request-with-generated-project:
         needs:
@@ -83,4 +83,4 @@ jobs:
                 GITHUB_USERNAME: avr2002
                 PACKAGE_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
               run: |
-                bash run.sh -x open-pull-request-with-generated-project
+                bash -x run.sh open-pull-request-with-generated-project

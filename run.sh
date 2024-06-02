@@ -46,10 +46,9 @@ function create-repository-if-not-exists {
     push-initial-readme-to-repo
 
     # Enable write permissions for the default workflow so that push tags can be used in github actions workflows
-    echo "Enabling write permissions for the default workflow..."
-    
+    # echo "Enabling write permissions for the default workflow..."
     # enable-write-workflow-permissions
-    # commented above because in yaml file we can achieve the same by 
+    # commented above because in yaml file we can achieve the same by
     # setting the permissions as `permissions: contents: write`
 }
 
