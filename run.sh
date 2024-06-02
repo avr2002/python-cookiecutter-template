@@ -9,6 +9,7 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
     # REPO_NAME: repository name
     # GITHUB_USERNAME: github username; e.g. "avr2002"
     # IS_PUBLIC_REPO: boolean; if true, the repository will be public, else private
+    # REPO_DESCRIPTION: description of the repository
 function create-repository-if-not-exists {
     local IS_PUBLIC_REPO=${IS_PUBLIC_REPO:-false}
 
@@ -30,8 +31,9 @@ function create-repository-if-not-exists {
     fi
 
     # Check if repo name is available; if not, prompt user to enter a new name
-    REPO_DESCRIPTION="A repository created using the python-cookiecutter-template"
-    gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE" --description "$REPO_DESCRIPTION"
+    DEFAULT_REPO_DESCRIPTION="A repository created using the python-cookiecutter-template"
+    REPO_DESC=${REPO_DESCRIPTION:-$DEFAULT_REPO_DESCRIPTION}
+    gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE" --description "$REPO_DESC"
     # || {
     #     echo "Repository with name $REPO_NAME already exists."
     #     echo "Please enter a new repository name: "
