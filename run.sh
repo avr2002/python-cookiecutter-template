@@ -67,10 +67,10 @@ function push-initial-readme-to-repo {
 # args:
     # REPO_NAME: repository name
     # GITHUB_USERNAME: github username; e.g. "avr2002"
-    # BASE_BRANCH: base branch to open the PR against; e.g. "main"
-    # HEAD_BRANCH: head branch to open the PR from; e.g. "feature/new-feature"
+    # PACKAGE_IMPORT_NAME: e.g. if "my_package" then "import my_package"
 function open-pull-request-with-generated-project {
-    rm -rf "$REPO_NAME" ./outdir
+    rm -rf "$REPO_NAME" ./outdir # remove the repository if it exists
+    install # install the dependencies
 
     # To open a PR to a repository,
     # 1. Clone the repository
@@ -94,6 +94,7 @@ function open-pull-request-with-generated-project {
     cat <<EOF > "$CONFIG_FILE_PATH"
 default_context:
     repo_name: "$REPO_NAME"
+    package_import_name: "$PACKAGE_IMPORT_NAME"
 EOF
     # Run cookiecutter with the configuration file
     cookiecutter ./ \
@@ -107,11 +108,15 @@ EOF
 
     # 2. Stage the generated files on a new feature branch, pre-commit requires the files to be staged
     cd "$OUTDIR/$REPO_NAME"
-    git checkout -b "feat/populating-from-cookiecutter-template"
+
+    # Create a new branch with a unique name
+    UUID=$(cat /proc/sys/kernel/random/uuid)
+    UNIQUE_BRANCH_NAME=feat/populating-from-cookiecutter-template-${UUID:0:6}
+
+    git checkout -b "$UNIQUE_BRANCH_NAME"
     git add --all
 
     # 2.1 Apply formatting, linting autofixes to the generated files (pre-commit hooks to the staged files)
-    make install
     make lint-ci || true
 
     # 2.2 Re-stage the modified files after applying the pre-commit hooks
@@ -119,14 +124,14 @@ EOF
 
     # 2.3 Commit the changes and push to the remote feature branch
     git commit -m "feat: populated the repository from the \`python-cookiecutter-template\`"
-    git push origin "feat/populating-from-cookiecutter-template"
+    git push origin "$UNIQUE_BRANCH_NAME"
     
     # 3. Open a PR to main branch using GitHub CLI
     gh pr create \
         --title "feat: populated the repository from the \`python-cookiecutter-template\`" \
         --body "Populated the repository from the \`python-cookiecutter-template\`" \
         --base main \
-        --head "feat/populating-from-cookiecutter-template" \
+        --head "$UNIQUE_BRANCH_NAME" \
         --repo "$GITHUB_USERNAME/$REPO_NAME"
 }
 
