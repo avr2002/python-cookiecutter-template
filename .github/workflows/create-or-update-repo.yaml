@@ -38,7 +38,7 @@ jobs:
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
                 bash run.sh create-repository-if-not-exists
-    
+
     configure-repository:
         needs:
             - create-repository-if-not-exists
@@ -54,7 +54,7 @@ jobs:
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
               run: |
                 bash run.sh configure-repository
-    
+
     open-pull-request-with-generated-project:
         needs:
             - create-repository-if-not-exists

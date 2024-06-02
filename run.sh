@@ -120,7 +120,7 @@ EOF
         --output-dir "$OUTDIR" \
         --no-input \
         --config-file "$CONFIG_FILE_PATH"
-    
+
     rm "$CONFIG_FILE_PATH"  # delete the configuration file
     mv "./$REPO_NAME/.git" "$OUTDIR/$REPO_NAME" # move the .git folder to the generated project
     rm -rf "$REPO_NAME" # remove the folder created in step 1.1.3
@@ -144,7 +144,7 @@ EOF
     # 2.3 Commit the changes and push to the remote feature branch
     git commit -m "feat: populated the repository from the \`python-cookiecutter-template\`"
     git push origin "$UNIQUE_BRANCH_NAME"
-    
+
     # 3. Open a PR to main branch using GitHub CLI
     gh pr create \
         --title "feat: populated the repository from the \`python-cookiecutter-template\`" \
