@@ -7,7 +7,7 @@ on:
                 description: 'Name of the Repo to Create.'
                 required: true
                 type: string
-            repo_visibility:
+            is_public_repo:
                 description: 'If unchecked, Repo is Private.'
                 required: true
                 default: false
@@ -37,7 +37,7 @@ jobs:
               env:
                 REPO_NAME: ${{ github.event.inputs.repo_name }}
                 GITHUB_USERNAME: avr2002
-                IS_PUBLIC_REPO: ${{ github.event.inputs.repo_visibility }}
+                IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
                 bash run.sh create-repository-if-not-exists
