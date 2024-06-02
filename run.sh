@@ -47,7 +47,10 @@ function create-repository-if-not-exists {
 
     # Enable write permissions for the default workflow so that push tags can be used in github actions workflows
     echo "Enabling write permissions for the default workflow..."
-    enable-write-workflow-permissions
+    
+    # enable-write-workflow-permissions
+    # commented above because in yaml file we can achieve the same by 
+    # setting the permissions as `permissions: contents: write`
 }
 
 # args:
@@ -78,7 +81,7 @@ function configure-repository {
         -F "required_status_checks[checks][][context]=lint-format-and-static-code-checks" \
         -F "required_status_checks[checks][][context]=build-wheel-and-sdist" \
         -F "required_status_checks[checks][][context]=execute-tests" \
-        -F "required_pull_request_reviews[required_approving_review_count]=1" \
+        -F "required_pull_request_reviews[required_approving_review_count]=0" \
         -F "enforce_admins=null" \
         -F "restrictions=null" &> /dev/null
 }
@@ -144,6 +147,12 @@ EOF
 
     # 2.3 Commit the changes and push to the remote feature branch
     git commit -m "feat: populated the repository from the \`python-cookiecutter-template\`"
+
+    # Set the remote URL with the GH_TOKEN if it exists, to work in github workflow CI environment
+    if [[ -n "$GH_TOKEN" ]]; then
+        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
+    fi
+
     git push origin "$UNIQUE_BRANCH_NAME"
 
     # 3. Open a PR to main branch using GitHub CLI
@@ -153,21 +162,6 @@ EOF
         --base main \
         --head "$UNIQUE_BRANCH_NAME" \
         --repo "$GITHUB_USERNAME/$REPO_NAME"
-}
-
-# cookie-cuts the project into sample directory, and initializes a git repository
-# in the generated project, and make an initial commit, so that pre-commit hooks
-# can be tested and run.
-function generate-project {
-    cookiecutter ./ \
-        --output-dir "$THIS_DIR/sample"
-
-    cd "$THIS_DIR/sample"
-    cd $(ls)
-    git init
-    git branch -m main
-    git add --all
-    git commit -m "feat: generated sample project with python-cookiecutter-template"
 }
 
 # args:
@@ -181,6 +175,12 @@ function push-initial-readme-to-repo {
     git branch -m main || true
     git add --all
     git commit -m "feat: initial commit, repository created"
+
+    # Set the remote URL with the GH_TOKEN if it exists, to work in github workflow CI environment
+    if [[ -n "$GH_TOKEN" ]]; then
+        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
+    fi
+
     git push origin main
     cd ..
     rm -rf "$REPO_NAME" # remove the cloned repository after pushing the initial commit
@@ -198,6 +198,34 @@ function enable-write-workflow-permissions {
         -f "default_workflow_permissions=write" &> /dev/null
 }
 
+# Function to create a sample repository using the create-or-update-repo.yaml workflow.
+function create-sample-repository {
+    git add .github/ \
+    && git commit -m "fix: debugging the create-or-update-repo.yaml workflow" \
+    && git push origin main || true
+
+    gh workflow run .github/workflows/create-or-update-repo.yaml \
+        -f repo_name="generated-demo-repo" \
+        -f package_import_name="sample_py_package" \
+        -f is_public_repo=true \
+        --ref main
+}
+
+
+# cookie-cuts the project into sample directory, and initializes a git repository
+# in the generated project, and make an initial commit, so that pre-commit hooks
+# can be tested and run.
+function generate-project {
+    cookiecutter ./ \
+        --output-dir "$THIS_DIR/sample"
+
+    cd "$THIS_DIR/sample"
+    cd $(ls)
+    git init
+    git branch -m main
+    git add --all
+    git commit -m "feat: generated sample project with python-cookiecutter-template"
+}
 
 # install core and development Python dependencies into the currently activated venv
 function install {
