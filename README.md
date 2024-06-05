@@ -1,3 +1,10 @@
+## @TODO:
+- [ ] Seperate publish to Test PyPI and Prod PyPI in CI/CD
+- [ ] Implement Upsert PyPI Secret in Github Actions
+- [ ] Populate from Template feature in Github Actions
+- [ ] Don't hardcode github username in the workflow
+
+
 ## Tools used in the Project
 
 <img src='assets/all-tools-images-1x.png' title='All Tools Used in the Project'>
