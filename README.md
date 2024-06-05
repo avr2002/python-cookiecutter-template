@@ -2,7 +2,7 @@
 - [ ] Seperate publish to Test PyPI and Prod PyPI in CI/CD
 - [ ] Implement Upsert PyPI Secret in Github Actions
 - [ ] Populate from Template feature in Github Actions
-- [ ] Don't hardcode github username in the workflow
+- [x] Don't hardcode github username, user-name, and email in the workflow
 
 
 ## Tools used in the Project
