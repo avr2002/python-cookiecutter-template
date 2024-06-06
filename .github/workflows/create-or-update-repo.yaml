@@ -34,6 +34,10 @@ on:
 
 env:
     GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+    AUTHOR_NAME: "$(gh api /users/${{ github.actor }} | jq .name -r)"
+    AUTHOR_EMAIL: "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+    GITHUB_USERNAME: ${{ github.actor}}
+    REPO_NAME: ${{ github.event.inputs.repo_name }}
 
 jobs:
     create-repository-if-not-exists:
@@ -45,12 +49,12 @@ jobs:
                 fetch-depth: 0
             - name: Configure Git User
               run: |
-                git config --global user.name "$(gh api /users/${{ github.actor }} | jq .name -r)"
-                git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+                git config --global user.name ${{ env.AUTHOR_NAME }}
+                git config --global user.email ${{ env.AUTHOR_EMAIL }}
             - name: Create Repo if not exists
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: ${{ github.actor}}
+                # REPO_NAME: ${{ github.event.inputs.repo_name }}
+                # GITHUB_USERNAME: ${{ github.actor}}
                 IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
@@ -65,12 +69,12 @@ jobs:
               uses: actions/checkout@v4
             - name: Configure Git User
               run: |
-                git config --global user.name "$(gh api /users/${{ github.actor }} | jq .name -r)"
-                git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+                git config --global user.name "$AUTHOR_NAME"
+                git config --global user.email "$AUTHOR_EMAIL"
             - name: Configure Repository
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: ${{ github.actor}}
+                # REPO_NAME: ${{ github.event.inputs.repo_name }}
+                # GITHUB_USERNAME: ${{ github.actor}}
                 UPSERT_PYPI_SECRETS: ${{ github.event.inputs.upsert_pypi_secrets }}
                 TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
@@ -88,12 +92,12 @@ jobs:
               uses: actions/checkout@v4
             - name: Configure Git User
               run: |
-                git config --global user.name ${{ github.actor}}
-                git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+                git config --global user.name $AUTHOR_NAME
+                git config --global user.email $AUTHOR_EMAIL
             - name: Open Pull Request
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: ${{ github.actor}}
+                # REPO_NAME: ${{ github.event.inputs.repo_name }}
+                # GITHUB_USERNAME: ${{ github.actor}}
                 PACKAGE_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
               run: |
                 bash -x run.sh open-pull-request-with-generated-project

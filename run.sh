@@ -90,6 +90,8 @@ function configure-repository {
     # REPO_NAME: repository name
     # GITHUB_USERNAME: github username; e.g. "avr2002"
     # PACKAGE_IMPORT_NAME: e.g. if "my_package" then "import my_package"
+    # AUTHOR_NAME: author name; e.g. "My Name"
+    # AUTHOR_EMAIL: author email; e.g. "test@gmail.com"
 function open-pull-request-with-generated-project {
     rm -rf "$REPO_NAME" ./outdir # remove the repository if it exists
     install # install the dependencies
@@ -117,6 +119,8 @@ function open-pull-request-with-generated-project {
 default_context:
     repo_name: "$REPO_NAME"
     package_import_name: "$PACKAGE_IMPORT_NAME"
+    author_name: "${AUTHOR_NAME:-'Amit Vikram Raj'}"
+    author_email: "${AUTHOR_EMAIL:-'avr13405+cookiecut-mail@gmail.com'}"
 EOF
     # Run cookiecutter with the configuration file
     cookiecutter ./ \
