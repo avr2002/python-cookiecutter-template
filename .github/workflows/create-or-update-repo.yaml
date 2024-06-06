@@ -32,6 +32,7 @@ on:
                 default: true
                 type: boolean
 
+# Common environment variables used by all jobs
 env:
     GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
     AUTHOR_EMAIL: "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
@@ -49,15 +50,13 @@ jobs:
             - name: Set Author Name
               run: |
                 AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
-                echo "AUTHOR_NAME=$AUTHOR_NAME" >> $GITHUB_ENV
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
                 git config --global user.name "${{ env.AUTHOR_NAME }}"
                 git config --global user.email "${{ env.AUTHOR_EMAIL }}"
             - name: Create Repo if not exists
               env:
-                # REPO_NAME: ${{ github.event.inputs.repo_name }}
-                # GITHUB_USERNAME: ${{ github.actor}}
                 IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
@@ -70,14 +69,16 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
+            - name: Set Author Name
+              run: |
+                AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
                 git config --global user.name "$AUTHOR_NAME"
                 git config --global user.email "$AUTHOR_EMAIL"
             - name: Configure Repository
               env:
-                # REPO_NAME: ${{ github.event.inputs.repo_name }}
-                # GITHUB_USERNAME: ${{ github.actor}}
                 UPSERT_PYPI_SECRETS: ${{ github.event.inputs.upsert_pypi_secrets }}
                 TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
@@ -93,14 +94,16 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
+            - name: Set Author Name
+              run: |
+                AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
                 git config --global user.name "$AUTHOR_NAME"
                 git config --global user.email "$AUTHOR_EMAIL"
             - name: Open Pull Request
               env:
-                # REPO_NAME: ${{ github.event.inputs.repo_name }}
-                # GITHUB_USERNAME: ${{ github.actor}}
                 PACKAGE_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
               run: |
                 bash -x run.sh open-pull-request-with-generated-project
