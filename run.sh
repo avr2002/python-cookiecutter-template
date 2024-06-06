@@ -56,16 +56,15 @@ function create-repository-if-not-exists {
     # REPO_NAME: repository name
     # GITHUB_USERNAME: github username; e.g. "avr2002"
     # TEST_PYPI_TOKEN, PROD_PYPI_TOKEN: PyPI tokens for test-PyPI and PyPI.
+    # UPSERT_PYPI_SECRETS: boolean[default=false]; if true, the PyPI secrets will be updated in the repository
 function configure-repository {
     # Configure the repository with the following settings:
     # 1. Github Actions Secrets for publishing to PyPI
-    gh secret set TEST_PYPI_TOKEN \
-        --body "$TEST_PYPI_TOKEN" \
-        --repo "$GITHUB_USERNAME/$REPO_NAME"
+    local UPSERT_PYPI_SECRETS=${UPSERT_PYPI_SECRETS:-false}
 
-    gh secret set PROD_PYPI_TOKEN \
-        --body "$PROD_PYPI_TOKEN" \
-        --repo "$GITHUB_USERNAME/$REPO_NAME"
+    if [[ "$UPSERT_PYPI_SECRETS" == true ]]; then
+        upsert-pypi-secrets
+    fi
 
     # https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#update-branch-protection
     # 2. Enable branch protection for the main branch, enforcing passing build on feature branches before merging
@@ -84,6 +83,7 @@ function configure-repository {
         -F "enforce_admins=null" \
         -F "restrictions=null" &> /dev/null
 }
+
 
 # INFO: Opening a PR is not a git concept, but a GitHub concept or a Git hosting service provider concept.
 # args:
@@ -183,6 +183,27 @@ function push-initial-readme-to-repo {
     git push origin main
     cd ..
     rm -rf "$REPO_NAME" # remove the cloned repository after pushing the initial commit
+}
+
+
+# INFO: This function is used to update the PyPI secrets in the repository.
+# args:
+    # REPO_NAME: repository name
+    # GITHUB_USERNAME: github username; e.g. "avr2002"
+    # TEST_PYPI_TOKEN: PyPI token for test-PyPI
+    # PROD_PYPI_TOKEN: PyPI token for PyPI
+function upsert-pypi-secrets {
+    local TEST_PYPI_TOKEN=${TEST_PYPI_TOKEN:-"sample_test_token"}
+    local PROD_PYPI_TOKEN=${PROD_PYPI_TOKEN:-"sample_prod_token"}
+
+    # Run the create-or-update-repo.yaml workflow to update the repository settings with PyPI secrets
+    gh secret set TEST_PYPI_TOKEN \
+        --body "$TEST_PYPI_TOKEN" \
+        --repo "$GITHUB_USERNAME/$REPO_NAME"
+
+    gh secret set PROD_PYPI_TOKEN \
+        --body "$PROD_PYPI_TOKEN" \
+        --repo "$GITHUB_USERNAME/$REPO_NAME"
 }
 
 

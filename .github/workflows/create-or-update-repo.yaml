@@ -8,7 +8,7 @@ on:
                 required: true
                 type: string
             is_public_repo:
-                description: 'If unchecked, Repo is Private.'
+                description: 'Make Repo Public (Default: Private).'
                 required: true
                 default: false
                 type: boolean
@@ -18,9 +18,19 @@ on:
                 default: 'This is a generated repository using the `python-cookiecutter-template`.'
                 type: string
             package_import_name:
-                description: 'Package Import Name, used in generated project. E.g., `from <pkg_name> import <module_name>`'
+                description: 'Package Import Name, used in generated project. E.g. `from <pkg_name> import <module_name>`'
                 required: true
                 type: string
+            upsert_pypi_secrets:
+                description: 'Upsert PyPI Secrets (Default: false).'
+                required: true
+                default: false
+                type: boolean
+            populate_from_template:
+                description: 'Populate from Template (Default: true).'
+                required: true
+                default: true
+                type: boolean
 
 env:
     GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
@@ -61,12 +71,15 @@ jobs:
               env:
                 REPO_NAME: ${{ github.event.inputs.repo_name }}
                 GITHUB_USERNAME: ${{ github.actor}}
+                UPSERT_PYPI_SECRETS: ${{ github.event.inputs.upsert_pypi_secrets }}
                 TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
               run: |
                 bash -x run.sh configure-repository
 
     open-pull-request-with-generated-project:
+        name: Open Pull Request with Generated Project - Populate from Template
+        if: ${{ github.event.inputs.populate_from_template == 'true'}}
         needs:
             - create-repository-if-not-exists
         runs-on: ubuntu-latest
