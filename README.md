@@ -1,7 +1,9 @@
 ## @TODO:
+
 - [ ] Seperate publish to Test PyPI and Prod PyPI in CI/CD
-- [ ] Implement Upsert PyPI Secret in Github Actions
-- [ ] Populate from Template feature in Github Actions
+- [ ] Complete the README.md
+- [x] Implement Upsert PyPI Secret in Github Actions
+- [x] Populate from Template feature in Github Actions
 - [x] Don't hardcode github username, user-name, and email in the workflow
 
 
