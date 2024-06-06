@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
         inputs:
             repo_name:
-                description: 'Name of the Repo to Create.'
+                description: 'Name of the Repo to Create/Update.'
                 required: true
                 type: string
             is_public_repo:

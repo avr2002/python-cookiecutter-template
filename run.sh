@@ -119,8 +119,8 @@ function open-pull-request-with-generated-project {
 default_context:
     repo_name: "$REPO_NAME"
     package_import_name: "$PACKAGE_IMPORT_NAME"
-    author_name: "${AUTHOR_NAME:-'Amit Vikram Raj'}"
-    author_email: "${AUTHOR_EMAIL:-'avr13405+cookiecut-mail@gmail.com'}"
+    author_name: "${AUTHOR_NAME:-'<Your Name>'}"
+    author_email: "${AUTHOR_EMAIL:-'<Your Email>'}"
 EOF
     # Run cookiecutter with the configuration file
     cookiecutter ./ \
