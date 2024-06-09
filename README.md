@@ -45,7 +45,7 @@ This project provides a tool to generate Python project templates using Cookiecu
 4. **Fill the Form**: Provide the necessary inputs such as repository name and package import name.
 5. **Review and Merge**: A pull request will be created with the generated boilerplate code. Review and merge it to start using your new project setup.
 6. Clone the repository and start developing your Python package/project. Customize the template as needed.
-7. By default, publish to PyPI has been disabled in the github actions workflow. 
+7. By default, publish to PyPI has been disabled in the github actions workflow.
    - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
 
 ![Project Setup Walkthrough](./assets//project-walkthrough.png)
