@@ -29,6 +29,14 @@ This project provides a tool to generate Python project templates using Cookiecu
 - **VS Code Integration:**: Includes settings for VS Code to ensure a consistent development experience.
     - `Auto-completion | Syntax highlighting | Auto-formatting on save | Linting error detection | Test discovery and execution`
 
+
+## Benefits
+
+- **Saves Time**: Automates repetitive setup tasks for new Python projects.
+- **Ensures Best Practices**: Pre-configured with industry-standard tools and practices.
+- **Customizable**: Easily adapt the template to fit your specific needs.
+
+
 ## Usage
 
 1. **Fork the repository to your GitHub account.**
@@ -36,12 +44,11 @@ This project provides a tool to generate Python project templates using Cookiecu
 3. **Run the Workflow**: Trigger the GitHub Actions workflow(`Create or Update Repo`) via the GitHub UI.
 4. **Fill the Form**: Provide the necessary inputs such as repository name and package import name.
 5. **Review and Merge**: A pull request will be created with the generated boilerplate code. Review and merge it to start using your new project setup.
+6. Clone the repository and start developing your Python package/project. Customize the template as needed.
+7. By default, publish to PyPI has been disabled in the github actions workflow. 
+   - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
 
-## Benefits
-
-- **Saves Time**: Automates repetitive setup tasks for new Python projects.
-- **Ensures Best Practices**: Pre-configured with industry-standard tools and practices.
-- **Customizable**: Easily adapt the template to fit your specific needs.
+![Project Setup Walkthrough](./assets//project-walkthrough.png)
 
 
 ## Quick Local Start Guide for Development
@@ -134,4 +141,8 @@ graph TD;
 * **
 
 
-✍🏼 [Amit Vikram Raj](https://www.linkedin.com/in/avr27/)
+<p>
+    <b>
+        <a href='https://www.linkedin.com/in/avr27/'>✍🏼 Amit Vikram Raj</a>
+    </b>
+</p>
