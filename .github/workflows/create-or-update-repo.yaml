@@ -4,11 +4,11 @@ on:
     workflow_dispatch:
         inputs:
             repo_name:
-                description: 'Name of the Repo to Create.'
+                description: 'Name of the Repo to Create/Update.'
                 required: true
                 type: string
             is_public_repo:
-                description: 'If unchecked, Repo is Private.'
+                description: 'Make Repo Public (Default: Private).'
                 required: true
                 default: false
                 type: boolean
@@ -18,12 +18,26 @@ on:
                 default: 'This is a generated repository using the `python-cookiecutter-template`.'
                 type: string
             package_import_name:
-                description: 'Package Import Name, used in generated project. E.g., `from <pkg_name> import <module_name>`'
+                description: 'Package Import Name, used in generated project. E.g. `from <pkg_name> import <module_name>`'
                 required: true
                 type: string
+            upsert_pypi_secrets:
+                description: 'Upsert PyPI Secrets (Default: false).'
+                required: true
+                default: false
+                type: boolean
+            populate_from_template:
+                description: 'Populate from Template (Default: true).'
+                required: true
+                default: true
+                type: boolean
 
+# Common environment variables used by all jobs
 env:
     GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+    AUTHOR_EMAIL: "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+    GITHUB_USERNAME: ${{ github.actor}}
+    REPO_NAME: ${{ github.event.inputs.repo_name }}
 
 jobs:
     create-repository-if-not-exists:
@@ -33,14 +47,16 @@ jobs:
               uses: actions/checkout@v4
               with:
                 fetch-depth: 0
+            - name: Set Author Name
+              run: |
+                AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
-                git config --global user.name "Amit Vikram Raj"
-                git config --global user.email "avr13405@gmail.com"
+                git config --global user.name "${{ env.AUTHOR_NAME }}"
+                git config --global user.email "${{ env.AUTHOR_EMAIL }}"
             - name: Create Repo if not exists
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: avr2002
                 IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
                 REPO_DESCRIPTION: ${{ github.event.inputs.repo_description }}
               run: |
@@ -53,34 +69,41 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
+            - name: Set Author Name
+              run: |
+                AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
-                git config --global user.name "Amit Vikram Raj"
-                git config --global user.email "avr13405@gmail.com"
+                git config --global user.name "$AUTHOR_NAME"
+                git config --global user.email "$AUTHOR_EMAIL"
             - name: Configure Repository
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: avr2002
+                UPSERT_PYPI_SECRETS: ${{ github.event.inputs.upsert_pypi_secrets }}
                 TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
                 PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
               run: |
                 bash -x run.sh configure-repository
 
     open-pull-request-with-generated-project:
+        name: Open Pull Request with Generated Project - Populate from Template
+        if: ${{ github.event.inputs.populate_from_template == 'true'}}
         needs:
             - create-repository-if-not-exists
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
+            - name: Set Author Name
+              run: |
+                AUTHOR_NAME="$(gh api /users/${{ github.actor }} | jq .name -r)"
+                echo "AUTHOR_NAME=$AUTHOR_NAME" >> "$GITHUB_ENV"
             - name: Configure Git User
               run: |
-                git config --global user.name "Amit Vikram Raj"
-                git config --global user.email "avr13405@gmail.com"
+                git config --global user.name "$AUTHOR_NAME"
+                git config --global user.email "$AUTHOR_EMAIL"
             - name: Open Pull Request
               env:
-                REPO_NAME: ${{ github.event.inputs.repo_name }}
-                GITHUB_USERNAME: avr2002
                 PACKAGE_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
               run: |
                 bash -x run.sh open-pull-request-with-generated-project
