@@ -4,6 +4,8 @@
 
 This project provides a tool to generate Python project templates using Cookiecutter, GitHub CLI, and GitHub Actions CI/CD. It automates the setup of a new Python package/project using modern, industry-standard tools and practices. It includes a comprehensive setup for linting, testing, continuous integration, and more. The template is fully customizable and can be adapted to fit your specific needs.
 
+<img src='assets/all-tools-images.png' title='All Tools & Practices Used in the Project'>
+
 ## Features
 
 - **Automated Repository Creation**: Generates a new GitHub repository with the necessary boilerplate code.
@@ -16,13 +18,7 @@ This project provides a tool to generate Python project templates using Cookiecu
     ├── run.sh
     ├── src
     │   └── package_import_name/
-    ├── tests
-    │   ├── __init__.py
-    │   ├── conftest.py
-    │   ├── consts.py
-    │   ├── fixtures/
-    │   ├── functional_tests/
-    │   └── unit_tests/
+    ├── tests/
     └── version.txt
     ```
 
@@ -31,10 +27,7 @@ This project provides a tool to generate Python project templates using Cookiecu
 - **CI/CD Integration**: Incorporates a GitHub Actions workflow for linting, testing, and building the package.
 - **Secrets Management**: Automatically sets up PyPI tokens for publishing packages.
 - **VS Code Integration:**: Includes settings for VS Code to ensure a consistent development experience.
-    - Auto-completion, Syntax highlighting
-    - Auto-formatting on save
-    - Linting error detection
-    - Test discovery and execution
+    - `Auto-completion | Syntax highlighting | Auto-formatting on save | Linting error detection | Test discovery and execution`
 
 ## Usage
 
@@ -65,13 +58,6 @@ pip install cookiecutter
 #  - package_import_name: my_awesome_package
 cookiecutter https://github.com/avr2002/python-cookiecutter-template.git
 ```
-
-
-## Tools & Practices used in the Project
-
-<img src='assets/all-tools-images.png' title='All Tools Used in the Project'>
-
-
 
 ## Project Architecture
 
@@ -131,17 +117,15 @@ graph TD;
 ├── pyproject.toml
 ├── requirements.txt
 ├── run.sh
-├── tests
+├── .github/workflows/
+│   └── code-quality-checks-and-tests.yaml
+│   └── create_or_update_repo.yml
+├── tests/
 │   ├── conftest.py
 │   ├── consts.py
-│   ├── fixtures
-│   │   └── project_dir.py
-│   ├── functional_tests
-│   │   ├── test_cookiecut_generate_project.py
-│   │   └── test_makefile.py
-│   └── utils
-│       ├── __init__.py
-│       └── project.py
+│   ├── fixtures/
+│   ├── functional_tests/
+│   └── utils/
 ├── version.txt
 └── {{cookiecutter.repo_name}}/
     ├── all the boilerplate code is here
