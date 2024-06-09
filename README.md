@@ -143,6 +143,6 @@ graph TD;
 
 <p>
     <b>
-        <a href='https://www.linkedin.com/in/avr27/'>✍🏼 Amit Vikram Raj</a>
+        <a href='https://www.linkedin.com/in/avr27/' target="_blank">✍🏼 Amit Vikram Raj</a>
     </b>
 </p>
