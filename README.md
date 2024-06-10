@@ -37,20 +37,6 @@ This project provides a tool to generate Python project templates using Cookiecu
 - **Customizable**: Easily adapt the template to fit your specific needs.
 
 
-## Usage
-
-1. **Fork the repository to your GitHub account.**
-2. **Optional:** If you intent to publish the package to PyPI, create a PyPI token and add it as a secret to the repository. The secret should be named as `PROD_PYPI_TOKEN` and `PROD_PYPI_TOKEN` for production and test PyPI tokens respectively.
-3. **Run the Workflow**: Trigger the GitHub Actions workflow(`Create or Update Repo`) via the GitHub UI.
-4. **Fill the Form**: Provide the necessary inputs such as repository name and package import name.
-5. **Review and Merge**: A pull request will be created with the generated boilerplate code. Review and merge it to start using your new project setup.
-6. Clone the repository and start developing your Python package/project. Customize the template as needed.
-7. By default, publish to PyPI has been disabled in the github actions workflow.
-   - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
-
-![Project Setup Walkthrough](./assets//project-walkthrough.png)
-
-
 ## Quick Local Start Guide for Development
 
 ```bash
@@ -65,6 +51,36 @@ pip install cookiecutter
 #  - package_import_name: my_awesome_package
 cookiecutter https://github.com/avr2002/python-cookiecutter-template.git
 ```
+
+
+## Usage
+
+1. **Fork the repository to your GitHub account.**
+2. **Setup a Personal Access Token:** Create a `PERSONAL_GITHUB_TOKEN` Token with [following Permissions](./assets/gh-token-permission-defined.png) and add it as a secret to the repository.
+    | Permission                | Access          |
+    |:-------------------------:|:---------------:|
+    | Administration            | Read and write  |
+    | Actions                   | Read and write  |
+    | Contents                  | Read and write  |
+    | Environments              | Read and write  |
+    | Metadata                  | Read-only       |
+    | Pull requests             | Read and write  |
+    | Secret scanning alerts    | Read and write  |
+    | Secrets                   | Read and write  |
+    | Variables                 | Read and write  |
+    | Workflows                 | Read and write  |
+
+3. **Optional:** If you intent to publish the package to PyPI, create a PyPI token and add it as a secret to the repository. The secret should be named as `PROD_PYPI_TOKEN` and `PROD_PYPI_TOKEN` for production and test PyPI tokens respectively.
+4. **Run the Workflow**: Trigger the GitHub Actions workflow(`Create or Update Repo`) via the GitHub UI.
+5. **Fill the Form**: Provide the necessary inputs such as repository name and package import name.
+6. **Review and Merge**: A pull request will be created with the generated boilerplate code. Review and merge it to start using your new project setup.
+7. Clone the repository and start developing your Python package/project. Customize the template as needed.
+8. By default, publish to PyPI has been disabled in the github actions workflow.
+   - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
+
+
+![Project Setup Walkthrough](./assets//project-walkthrough.png)
+
 
 ## Project Architecture
 
@@ -140,9 +156,4 @@ graph TD;
 
 * **
 
-
-<p>
-    <b>
-        <a href='https://www.linkedin.com/in/avr27/' target="_blank">✍🏼 Amit Vikram Raj</a>
-    </b>
-</p>
+✍🏼[**Amit Vikram Raj**](https://www.linkedin.com/in/avr27/)
