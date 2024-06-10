@@ -79,7 +79,7 @@ cookiecutter https://github.com/avr2002/python-cookiecutter-template.git
    - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
 
 
-![Project Setup Walkthrough](./assets//project-walkthrough.png)
+![Project Setup Walkthrough](./assets/new-project-walkthrough.png)
 
 
 ## Project Architecture
