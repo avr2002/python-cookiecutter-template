@@ -70,7 +70,7 @@ cookiecutter https://github.com/avr2002/python-cookiecutter-template.git
     | Variables                 | Read and write  |
     | Workflows                 | Read and write  |
 
-3. **Optional:** If you intent to publish the package to PyPI, create a PyPI token and add it as a secret to the repository. The secret should be named as `PROD_PYPI_TOKEN` and `PROD_PYPI_TOKEN` for production and test PyPI tokens respectively.
+3. **Optional:** If you intent to publish the package to PyPI, create a PyPI token and add it as a secret to the repository. The secret should be named as `TEST_PYPI_TOKEN` and `PROD_PYPI_TOKEN` for production and test PyPI tokens respectively.
 4. **Run the Workflow**: Trigger the GitHub Actions workflow(`Create or Update Repo`) via the GitHub UI.
 5. **Fill the Form**: Provide the necessary inputs such as repository name and package import name.
 6. **Review and Merge**: A pull request will be created with the generated boilerplate code. Review and merge it to start using your new project setup.
@@ -79,7 +79,7 @@ cookiecutter https://github.com/avr2002/python-cookiecutter-template.git
    - To enable it, uncomment the `Publish` job in the workflow file `newly_generated_repo/.github/workflows/build-test-publish.yaml` and provide the necessary PyPI token secret.
 
 
-![Project Setup Walkthrough](./assets/new-project-walkthrough.png)
+![Project Setup Walkthrough](./assets/project-walkthrough.png)
 
 
 ## Project Architecture
