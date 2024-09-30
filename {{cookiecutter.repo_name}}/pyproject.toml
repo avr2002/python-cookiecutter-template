@@ -8,28 +8,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{ cookiecutter.repo_name }}"
-authors = [{ name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }]
-description = "Demo for Python Packaging"
+authors = [
+    { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" },
+]
+description = "Python package description for {{ cookiecutter.repo_name }}"
 readme = "README.md"
 requires-python = ">=3.7"
-keywords = [
-    "python",
-    "bash",
-    "makefile",
-    "pypi",
-    "ci-cd",
-    "setuptools",
-    "wheels",
-    "package-development",
-    "github-actions",
-    "pypi-package",
-    "pre-commit-hooks",
-    "pyproject-toml",
-    "gitactions-workflow",
-    "github-actions-enabled",
-    "pre-commit-ci",
-    "pre-commit-config",
-]
+keywords = ["python"]
 license = { text = "MIT" }
 classifiers = ["Programming Language :: Python :: 3"]
 dependencies = ["numpy", 'importlib-metadata; python_version>="3.8"']

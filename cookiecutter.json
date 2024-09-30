@@ -1,6 +1,6 @@
 {
-    "repo_name": "repo-name",
+    "repo_name": "default-repo-name",
     "package_import_name": "example_package",
     "author_name": "Amit Vikram Raj",
-    "author_email": "avr13405+cookiecut-mail@gmail.com"
+    "author_email": "avr13405+cookiecutter@gmail.com"
 }
